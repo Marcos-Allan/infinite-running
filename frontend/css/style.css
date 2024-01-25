@@ -20,6 +20,7 @@ main {
     width: 100dvw;
     height: 100dvh;
     display: flex;
+    overflow: hidden;
     justify-content: center;
     align-items: center;
     background-color: var(--color3);
@@ -73,15 +74,48 @@ main > div.entrance > form > input[type='submit']:disabled {
     cursor: auto;
 }
 
+/* ESPERANDO */
+main > div.waiting {
+    width: 100%;
+    height: 100%;
+    background-color: var(--color3);
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+main > div.waiting > h1 {
+    color: #f2f2f2;
+}
+main > div.waiting > button.play_again {
+    color: #f2f2f2;
+    padding: 10px 0px;
+    width: 90%;
+    max-width: 200px;
+    display: none;
+    font-size: 20px;
+    border: none;
+    outline: none;
+    margin-top: 10px;
+    border-radius: 8px;
+}
+
 /* JOGO */
 main > div.game {
     position: relative;
     display: none;
     width: 100%;
     height: 100%;
+    /* max-width: 500px;
+    max-height: 500px;
+    border-radius: 12px; */
+    overflow: hidden;
+    background-color: var(--color2);
 }
 
-main > div.game > p.name_player {
+main > div.game > div.player_infos {
+    display: flex;
     color: #f2f2f2;
 }
 
@@ -92,6 +126,17 @@ main > div.game > div.player {
     position: absolute;
     bottom: 81px;
     left: 1px;
+}
+
+main > div.game > div.enemy {
+    width: 50px;
+    height: 50px;
+    background-color: var(--color1);
+    position: absolute;
+    bottom: 81px;
+    left: 100%;
+    /* left: 200px; */
+    /* left: -50px; */
 }
 
 main > div.game > div.ground {
@@ -124,12 +169,25 @@ main > div.game > div.ground {
     }
 }
 
+@keyframes face {
+    from{
+        left: 100%;
+    }
+    to{
+        left: calc(0% - 153px);
+    }
+}
+
 .jump_animation {
-    animation: jump 700ms ease-in ;
+    animation: jump 700ms ease-in-out;
+}
+
+.face_animation {
+    animation: face 1700ms linear infinite;
 }
 
 .fall_animation {
-    animation: fall 700ms ease-in ;
+    animation: fall 700ms ease-out;
 }
 
 /* CONTROLS */
