@@ -38,7 +38,7 @@ login_input.addEventListener('input', check_disabled_input)
 
 login_form.addEventListener('submit', (e) => {
     e.preventDefault()
-    websocket = new WebSocket('ws://localhost:8080')
+    websocket = new WebSocket('wss://backend-infinite-runing.onrender.com')
     
     websocket.onopen= () => {
         websocket.send(``)
