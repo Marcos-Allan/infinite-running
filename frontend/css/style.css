@@ -45,6 +45,48 @@ main > div.entrance {
     display: block;
 }
 
+main > div.entrance > div.img_google {
+    width: 40px;
+    height: 40px;
+    border-radius: 20%;
+    position: absolute;
+    background-image: url('../imgs/google_icon3.jpg');
+    background-size: 150%;
+    background-position: center;
+    top: 0%;
+    right: 0%;
+    margin: 20px;
+    transition: .15s;
+    cursor: pointer;
+}
+
+main > div.entrance > div.message_google {
+    position: absolute;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    height: 40px;
+    width: 285px;
+    top: 0%;
+    right: 0%;
+    margin: 20px;
+    z-index: 4;
+    margin-right: 70px;
+    margin-top: 26px;
+}
+
+main > div.entrance > div.message_google > p{
+    margin-right: 50px;
+    color: #f2f2f2;
+    font-size: 20px;
+    text-align: right;
+    font-weight: bold;
+}
+
+main > div.entrance > div.img_google:hover{
+    scale: 1.4;
+}
+
 main > div.entrance > h1 {
     color: var(--color3);
     margin-bottom: 20px;
