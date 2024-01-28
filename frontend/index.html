@@ -3,18 +3,26 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="css/style.css">
-        <script src="js/main.js" defer></script>
+        <link rel="stylesheet" href="css/style.css"/>
+
         <title>Infinite Running</title>
     </head>
     <body>
         <main>
 
+            <div class="login_google" alt="">
+                <p class="message_google animate_back">Login com Google</p>
+                <div class="icon_google"></div>
+
+                <img
+                    class='perfil_img'
+                    src=''
+                    alt="foto de perfil da conta"
+                />
+                <p class="perfil_name"></p>
+            </div>
+
             <div class="entrance">
-                <div class="img_google" alt=""></div>
-                <div class="message_google">
-                    <p>Login com Google</p>
-                </div>
                 <h1>Cadastre-se Para Salvar Seu Recorde</h1>
                 <form class="login_form">
                     <input class="login_input" type="text" placeholder="Digite seu nickname" />
@@ -42,5 +50,8 @@
             </div>
 
         </main>
+        
+        <script type="module" src='js/firebase.js'></script>
+        <script type="module" src="js/main.js"></script>
     </body>
 </html>

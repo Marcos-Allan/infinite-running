@@ -1,3 +1,6 @@
+// IMPORTAÇÕES
+import { app, auth, provider, signInWithPopup } from '../js/firebase.js'
+
 // VARIABLES LOGIN
 const screen_login = document.querySelector('.entrance')
 const login_form = document.querySelector('.login_form')
@@ -10,6 +13,12 @@ const controls = document.querySelector('.controls')
 const jump_btn = document.querySelector('.jump')
 const fall_btn = document.querySelector('.fall')
 const name_player = document.querySelector('.name_player')
+
+// GOOGLE VARIABLES LOGIN
+const icon_google = document.querySelector('.icon_google')
+const message_google = document.querySelector('.message_google')
+const perfil_name = document.querySelector('.perfil_name')
+const perfil_img = document.querySelector('.perfil_img')
 
 // WAITING VARIABLES
 const screen_waiting = document.querySelector('.waiting')
@@ -25,6 +34,45 @@ const enemy = document.querySelector('.enemy')
 const placar = document.querySelector('.placar')
 let winner;
 let loser;
+
+const userSignIn = async() => {
+    signInWithPopup(auth, provider)
+    .then((result) => {
+        const user = result.user
+        sessionStorage.setItem('user', JSON.stringify({name: result.user.displayName.split(' ')[0], img: result.user.photoURL}))
+
+        icon_google.style.display = 'none'
+        message_google.style.display = 'none'
+        
+        perfil_name.style.display = 'block'
+        perfil_img.style.display = 'block'
+        perfil_name.innerText = JSON.parse(sessionStorage.getItem('user')).name
+        perfil_img.src = `${JSON.parse(sessionStorage.getItem('user')).img}`
+
+        login_input.value = JSON.parse(sessionStorage.getItem('user')).name
+        check_disabled_input()
+        login_input.focus()
+
+    }).catch((error) => {
+        const errorCode = error.code
+        const errorMessage = error.mesage
+    })
+}
+
+icon_google.addEventListener('click',() => {
+    console.log('msg')
+    userSignIn()
+})
+
+icon_google.addEventListener('mouseenter', () => {
+    message_google.classList.remove('animate_back')
+    message_google.classList.add('animate_entrance')
+})
+
+icon_google.addEventListener('mouseleave', () => {
+    message_google.classList.remove('animate_entrance')
+    message_google.classList.add('animate_back')
+})
 
 // LOGIN VALIDATION
 function check_disabled_input(){
