@@ -20,7 +20,7 @@ const enemy = document.querySelector('.enemy')
 const placar = document.querySelector('.placar')
 let loop;
 let reg;
-let num;
+let num = 6
 let pg = false
 let id;
 let websocket;
@@ -41,15 +41,15 @@ login_form.addEventListener('submit', (e) => {
     websocket = new WebSocket('wss://backend-infinite-runing.onrender.com')
     
     websocket.onopen= () => {
-        websocket.send(``)
-        // websocket.send(`O Jogador ${name_player.innerText} entrou no jogo`)
-        num = 5
+        websocket.send(JSON.stringify({loser: ``, winner: ''}))
+        num = 6
     }
 
     websocket.addEventListener('message', (event) => {
         const data = JSON.parse(event.data)
         console.log(data)
-        if(data.peoples == '2' && data.data == ''){
+        console.log(JSON.parse(data.data))
+        if(data.peoples == '2' && JSON.parse(data.data).loser == '' && JSON.parse(data.data).winner == ''){
             screen_waiting.style.display = 'flex'
                 reg = setInterval(() => {
                     num--
@@ -64,29 +64,38 @@ login_form.addEventListener('submit', (e) => {
                 //LEVAR O PLAYER A TELA DO JOGO
                 screen_game.style.display = 'block'
                 play_game()
-            }, 5000);
+            }, 6000);
         }
-        if(pg == false && data.data == ''){
+        if(JSON.parse(data.data).loser == '' && JSON.parse(data.data).winner == ''){
             screen_waiting.style.display = 'flex'
-            screen_message.innerText = `${data.peoples == '1' ? `Só há você online` : `tem ${event.data.peoples} pessoas online`}`
+            screen_message.innerText = `${data.peoples == '1' ? `Só há você online` : `tem ${data.peoples} pessoas online`}`
             screen_login.style.display = 'none'
             screen_game.style.display = 'none'
             return
-        }else if(pg == false && data.data != name_player.innerText){
+        }else if(JSON.parse(data.data).loser != name_player.innerText){
+            console.log(JSON.parse(data.data).loser)
+            console.log(name_player.innerText)
+            websocket.send(JSON.stringify({ loser: JSON.parse(data.data).loser, winner: name_player.innerText }))
+            console.log(JSON.parse(data.data).loser)
+            console.log(JSON.parse(data.data).winner)
             websocket.close()
+            name_player.innerText = ''
             screen_waiting.style.display = 'flex'
             play_again.style.display = 'block'
             play_again.style.backgroundColor = 'var(--color5)'
-            screen_message.innerText = `vc ganhou`
+            screen_message.innerText = `Vc Ganhou`
             screen_login.style.display = 'none'
             screen_game.style.display = 'none'
             return
-        }else if(pg == true){
+        }else if(JSON.parse(data.data).loser == name_player.innerText){
+            websocket.send(JSON.stringify({ loser: name_player.innerText, winner: JSON.parse(data.data).winner }))
+            console.log(JSON.parse(data.data).loser)
             websocket.close()
+            name_player.innerText = ''
             screen_waiting.style.display = 'flex'
             play_again.style.display = 'block'
             play_again.style.backgroundColor = 'var(--color2)'
-            screen_message.innerText = `vc perdeu`
+            screen_message.innerText = `Vc Perdeu`
             screen_login.style.display = 'none'
             screen_game.style.display = 'none'
             return
@@ -134,8 +143,10 @@ function get_tecla_down(event){
 }
 
 function game_over(pos_player, pos_enemy){
-    websocket.send(name_player.innerText)
-    pg = true
+    websocket.send(JSON.stringify({
+        loser: name_player.innerText,
+        winner: ''
+    }))
 
     //REMOVE OS MOVIMENTOS DO PLAYER
     jump_btn.removeEventListener('click', jump_player)
@@ -159,13 +170,12 @@ function game_over(pos_player, pos_enemy){
     screen_login.style.display = 'block'
     //LEVAR O PLAYER A TELA DO JOGO
     screen_game.style.display = 'none'
-    name_player.innerText = ''
-    login_input.value = ''
-    login_input.focus()
-    play_game()
+    // login_input.value = ''
+    // login_input.focus()
+    // play_game()
 }
 
-// INTERATIONS BUTTONS
+// ADD INTERATIONS BUTTONS
 play_again.addEventListener('click', () => {
     window.location.reload()
 })
@@ -202,18 +212,7 @@ function play_game(){
         let pos_right_enemy = Number(window.getComputedStyle(enemy).left.replace('px', '')) + 50
         let pos_bottom_enemy = Number(window.getComputedStyle(enemy).bottom.replace('px', ''))
         let pos_top_enemy = Number(window.getComputedStyle(enemy).bottom.replace('px', '')) + 50
-        
-        // console.log(pos_left_player)
-        // console.log(pos_right_player)
-        // console.log(pos_bottom_player)
-        // console.log(pos_top_player)
-        
-        // console.log(pos_left_enemy)
-        // console.log(pos_right_enemy)
-        // console.log(pos_bottom_enemy)
-        // console.log(pos_top_enemy)
 
-        // SE O POSICIONAMENTO DO INIMIGO FOR IGUAL OU MENOR QUE -50px E MAIOR QUE 53px VOCE PERDE
         if((pos_bottom_player <= 81) && (pos_left_enemy <= 53) && (pos_left_enemy >= -50)){
             game_over(
                 {
