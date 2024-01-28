@@ -24,7 +24,6 @@ const player = document.querySelector('.player')
 const enemy = document.querySelector('.enemy') 
 const placar = document.querySelector('.placar')
 let winner;
-let loser;
 
 // LOGIN VALIDATION
 function check_disabled_input(){
@@ -39,7 +38,7 @@ login_input.addEventListener('input', check_disabled_input)
 
 login_form.addEventListener('submit', (e) => {
     e.preventDefault()
-    websocket = new WebSocket('wss://backend-infinite-runing.onrender.com')
+    websocket = new WebSocket('ws://localhost:8080')
     
     websocket.addEventListener('open', () => {
         websocket.send(JSON.stringify({ name: login_input.value, loser: '', winner: '' }))
@@ -69,7 +68,7 @@ login_form.addEventListener('submit', (e) => {
             screen_waiting.style.display = 'flex'
                 reg = setInterval(() => {
                     num--
-                    screen_message.innerText = `O Jogo Começa Em ${num}`
+                    screen_message.innerText = `O jogo começa em ${num}`
                 }, 1000);
             screen_login.style.display = 'none'
             screen_game.style.display = 'none'
@@ -85,41 +84,42 @@ login_form.addEventListener('submit', (e) => {
         
         if(JSON.parse(data.data).loser == '' && JSON.parse(data.data).winner == ''){
             screen_waiting.style.display = 'flex'
-            screen_message.innerText = `${data.peoples == '1' ? `Só Há Você Online` : `Tem ${data.peoples} Pessoas Online`}`
+            screen_message.innerText = `${data.peoples == '1' ? `Só há você online` : `tem ${data.peoples} pessoas online`}`
             screen_login.style.display = 'none'
             screen_game.style.display = 'none'
             return
         }else if(JSON.parse(data.data).loser != name_player.innerText){
-            if(data.names.split(':')[1].replace(',2','') != name_player.innerText){
-                loser = data.names.split(':')[1].replace(',2','')
-            }
-            else{
-                loser = data.names.split(':')[2].replace(',2','')
-            }
+            console.log(JSON.parse(data.data).loser)
+            console.log(data.names)
+            console.log(name_player.innerText)
+            websocket.send(JSON.stringify({ loser: JSON.parse(data.data).loser, winner: name_player.innerText }))
+            console.log(JSON.parse(data.data).loser)
+            console.log(JSON.parse(data.data).winner)
             websocket.close()
-            
             name_player.innerText = ''
             screen_waiting.style.display = 'flex'
             play_again.style.display = 'block'
             play_again.style.backgroundColor = 'var(--color5)'
-            screen_message.innerHTML = `Vc Ganhou <br> ${capitalizeWords(loser.toLowerCase())} Perdeu`
+            screen_message.innerHTML = `Vc Ganhou <br> ${JSON.parse(data.data).loser} Perdeu`
             screen_login.style.display = 'none'
             screen_game.style.display = 'none'
             return
         }else if(JSON.parse(data.data).loser == name_player.innerText){
             websocket.send(JSON.stringify({ loser: name_player.innerText, winner: JSON.parse(data.data).winner }))
+            console.log('1: ' + data.names.split(':')[2].replace(',2',''))
             if(data.names.split(':')[1].replace(',2','') == name_player.innerText){
                 winner = data.names.split(':')[1].replace(',2','')
             }
             else{
                 winner = data.names.split(':')[2].replace(',2','')
             }
+            console.log(JSON.parse(data.data).loser)
             websocket.close()
             name_player.innerText = ''
             screen_waiting.style.display = 'flex'
             play_again.style.display = 'block'
             play_again.style.backgroundColor = 'var(--color2)'
-            screen_message.innerHTML = `Vc Perdeu <br>${capitalizeWords(winner.toLowerCase())} Ganhou`
+            screen_message.innerHTML = `Vc Perdeu <br>${winner} Ganhou`
             screen_login.style.display = 'none'
             screen_game.style.display = 'none'
             return
@@ -128,12 +128,6 @@ login_form.addEventListener('submit', (e) => {
 })
 
 // FUNCTION INTERATIONS
-function capitalizeWords(str) {
-    return str.replace(/\b\w/g, function (match) {
-        return match.toUpperCase();
-    });
-}
-
 function jump_player(){
     jump_btn.removeEventListener('click', jump_player)
     document.removeEventListener('keyup', get_tecla_up)

@@ -1,3 +1,8 @@
+@font-face {
+    font-family: 'pixel';
+    src: url('./fonts/Font-Pixel.ttf');
+ }
+
 :root{
     --color1: #f3f3f3;
     --color2: #636363;
@@ -9,11 +14,15 @@
     --color2F: #6363638c;
 }
 
+
 *{
     margin: 0px;
     padding: 0px;
     box-sizing: border-box;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    /* USO DA FONT IMPORTADA */
+    font-family: 'pixel', 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;;
+    font-size: 12px;
+    letter-spacing: 2px;
 }
 
 main {
@@ -45,26 +54,36 @@ main > div.entrance > h1 {
 
 main > div.entrance > form  {
     display: flex;
+    width: 100%;
 }
 
 main > div.entrance > form > input {
     border: none;
     outline: none;
     flex-grow: 1;
-    padding: 4px;
+    padding: 0px 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: capitalize;
 }
 
 main > div.entrance > form > input[type='text'] {
     background-color: var(--color6);
-    color: var(--color3)
+    color: var(--color3);
+    flex-grow: 1;
+    padding-top: 5px;
+    font-size: 0.8em;
+    max-width: 70%;
 }
 
 main > div.entrance > form > input[type='submit'] {
     background-color: var(--color4);
     text-transform: uppercase;
-    font-size: 12px;
+    font-size: 0.8em;
     cursor: pointer;
-    letter-spacing: 2px;
+    padding-top: 5px;
+    flex-grow: 1;
     color: var(--color1)
 }
 
@@ -88,6 +107,7 @@ main > div.waiting {
 main > div.waiting > h1 {
     color: #f2f2f2;
     text-align: center;
+    font-size: 1.5em;
 }
 main > div.waiting > button.play_again {
     color: #f2f2f2;
@@ -95,7 +115,8 @@ main > div.waiting > button.play_again {
     width: 90%;
     max-width: 200px;
     display: none;
-    font-size: 20px;
+    padding-top: 14px;
+    font-size: 1.3em;
     border: none;
     outline: none;
     margin-top: 10px;
