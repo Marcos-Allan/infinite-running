@@ -93,7 +93,7 @@ main > div.login_google > p.perfil_name {
 main > div.login_google > p.message_google {
     color: var(--color1);
     opacity: 1;
-    font-size: 1.3em;
+    font-size: 1em;
     padding-top: 10px;
     margin-right: 20px;
     transition: all 700ms;
@@ -323,6 +323,6 @@ main > div.game > div.controls > div {
     }
 
     main > div.login_google > p.message_google {
-        font-size: 0.8em;
+        font-size: 0.7em;
     }
 }

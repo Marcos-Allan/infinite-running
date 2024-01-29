@@ -66,9 +66,6 @@ const userSignIn = async() => {
         sessionStorage.setItem('user', JSON.stringify({name: result.user.displayName.split(' ')[0], img: result.user.photoURL}))
 
         view_user()
-        setTimeout(() => {
-            env_form()
-        }, 1000);
 
     }).catch((error) => {
         const errorCode = error.code
@@ -90,7 +87,6 @@ function view_user(){
         login_input.value = JSON.parse(sessionStorage.getItem('user')).name
         check_disabled_input()
         login_input.focus()
-        env_form()
     }else{
         icon_google.style.display = 'block'
         message_google.style.display = 'block'
