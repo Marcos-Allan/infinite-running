@@ -30,13 +30,31 @@ main, body, html {
     height: 100dvh;
     display: flex;
     overflow: hidden;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     background-color: var(--color3);
 }
 
+main > img.game_icon {
+    width: 140px;
+    height: auto;
+    display: block;
+    position: absolute;
+    top: 0%;
+    left: 50%;
+    transform: translate(-50%, -0%);
+    margin: 0 auto;
+    transition: all .4s;
+}
+
+main > img.game_icon:hover {
+    width: 160px;
+}
+
 /* LOGIN */
 main > div.entrance {
+    position: relative;
     background-color: var(--color1);
     max-width: 300px;
     width: 90%;

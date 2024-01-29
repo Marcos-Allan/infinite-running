@@ -36,6 +36,7 @@ const icon_google = document.querySelector('.icon_google')
 const message_google = document.querySelector('.message_google')
 const perfil_name = document.querySelector('.perfil_name')
 const perfil_img = document.querySelector('.perfil_img')
+const game_icon = document.querySelector('.game_icon')
 
 // WAITING VARIABLES
 const screen_waiting = document.querySelector('.waiting')
@@ -151,6 +152,7 @@ function env_form(e){
             screen_message.innerText = `${data.peoples == '1' ? `Só há você online` : `tem ${data.peoples} pessoas online`}`
             screen_login.style.display = 'none'
             screen_game.style.display = 'none'
+            game_icon.style.display = 'none'
             return
         }
 
@@ -160,13 +162,16 @@ function env_form(e){
                     num--
                     icon_google.style.display = 'none'
                     message_google.style.display = 'none'
+                    game_icon.style.display = 'none'
                     screen_message.innerText = `O Jogo Começa Em ${num}`
                 }, 1000);
             screen_login.style.display = 'none'
             screen_game.style.display = 'none'
+            game_icon.style.display = 'none'
             timeout = setTimeout(() => {
                 screen_waiting.style.display = 'none'
                 screen_login.style.display = 'none'
+                game_icon.style.display = 'none'
                 name_player.innerText = login_input.value
                 //LEVAR O PLAYER A TELA DO JOGO
                 screen_game.style.display = 'block'
@@ -181,6 +186,7 @@ function env_form(e){
             screen_game.style.display = 'none'
             icon_google.style.display = 'none'
             message_google.style.display = 'none'
+            game_icon.style.display = 'none'
             return
         }else if(JSON.parse(data.data).loser != name_player.innerText){
             websocket.send(JSON.stringify({ winner: name_player.innerText, loser: JSON.parse(data.data).winner }))
@@ -196,6 +202,7 @@ function env_form(e){
             
             name_player.innerText = ''
             screen_waiting.style.display = 'flex'
+            game_icon.style.display = 'block'
             play_again.style.display = 'block'
             play_again.style.backgroundColor = 'var(--color5)'
             screen_message.innerHTML = `Vc Ganhou <br> ${capitalizeWords(loser)} Perdeu`
@@ -217,6 +224,7 @@ function env_form(e){
             websocket.close()
             name_player.innerText = ''
             screen_waiting.style.display = 'flex'
+            game_icon.style.display = 'block'
             play_again.style.display = 'block'
             play_again.style.backgroundColor = 'var(--color2)'
             screen_message.innerHTML = `Vc Perdeu <br>${capitalizeWords(winner)} Ganhou`
