@@ -31,7 +31,7 @@ const fall_btn = document.querySelector('.fall')
 const name_player = document.querySelector('.name_player')
 
 // GOOGLE VARIABLES LOGIN
-// const login_google = document.querySelector('.login_google')
+const login_google = document.querySelector('.login_google')
 const icon_google = document.querySelector('.icon_google')
 const message_google = document.querySelector('.message_google')
 const perfil_name = document.querySelector('.perfil_name')
@@ -57,7 +57,7 @@ const placar = document.querySelector('.placar')
 let winner;
 let loser;
 
-document.addEventListener('DOMContentLoaded', view_user)
+document.addEventListener('DOMContentLoaded',view_user)
 
 const userSignIn = async() => {
     signInWithPopup(auth, provider)
@@ -87,6 +87,7 @@ function view_user(){
         login_input.value = JSON.parse(sessionStorage.getItem('user')).name
         check_disabled_input()
         login_input.focus()
+        env_form()
     }else{
         icon_google.style.display = 'block'
         message_google.style.display = 'block'
@@ -122,14 +123,7 @@ function check_disabled_input(){
 
 login_input.addEventListener('input', check_disabled_input)
 
-login_form.addEventListener('submit', (e) => {
-    e.preventDefault()
-    env_form()
-})
-
-game_icon.addEventListener('click', () => {
-    alert('botão pressionado')
-})
+login_form.addEventListener('submit', env_form)
 
 // FUNCTION INTERATIONS
 function capitalizeWords(str) {
@@ -138,7 +132,8 @@ function capitalizeWords(str) {
     });
 }
 
-function env_form(){
+function env_form(e){
+    e.preventDefault()
     websocket = new WebSocket('wss://backend-infinite-runing.onrender.com')
     
     websocket.addEventListener('open', () => {
@@ -208,11 +203,6 @@ function env_form(){
             name_player.innerText = ''
             screen_waiting.style.display = 'flex'
             game_icon.style.display = 'block'
-            game_icon.style.top = '-30px'
-            game_icon.style.top = '-30px'
-            game_icon.style.left = '50%'
-            game_icon.style.transform = 'translate(-50%, -0%)'
-            
             play_again.style.display = 'block'
             play_again.style.backgroundColor = 'var(--color5)'
             screen_message.innerHTML = `Vc Ganhou <br> ${capitalizeWords(loser)} Perdeu`
