@@ -129,6 +129,10 @@ main > div.entrance > form > input[type='text'] {
     max-width: 70%;
 }
 
+main > div.entrance > form > input[type='text']:focus {
+    border: 1px solid var(--color2F);
+}
+
 main > div.entrance > form > input[type='submit'] {
     background-color: var(--color4);
     text-transform: uppercase;
@@ -137,6 +141,10 @@ main > div.entrance > form > input[type='submit'] {
     padding-top: 5px;
     flex-grow: 1;
     color: var(--color1)
+}
+
+main > div.entrance > form > input[type='submit']:hover {
+    scale: 1.1;
 }
 
 main > div.entrance > form > input[type='submit']:disabled {
@@ -161,6 +169,7 @@ main > div.waiting > h1 {
     text-align: center;
     font-size: 1.5em;
 }
+
 main > div.waiting > button.play_again {
     color: #f2f2f2;
     padding: 10px 0px;
@@ -173,6 +182,12 @@ main > div.waiting > button.play_again {
     outline: none;
     margin-top: 10px;
     border-radius: 8px;
+    cursor: pointer;
+    transition: .1s;
+}
+
+main > div.waiting > button.play_again:hover {
+    scale: 1.1;
 }
 
 /* JOGO */

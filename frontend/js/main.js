@@ -15,6 +15,7 @@ const fall_btn = document.querySelector('.fall')
 const name_player = document.querySelector('.name_player')
 
 // GOOGLE VARIABLES LOGIN
+const login_google = document.querySelector('.login_google')
 const icon_google = document.querySelector('.icon_google')
 const message_google = document.querySelector('.message_google')
 const perfil_name = document.querySelector('.perfil_name')
@@ -25,7 +26,10 @@ const screen_waiting = document.querySelector('.waiting')
 const screen_message = document.querySelector('.message')
 let num = 5
 let reg;
+let loop;
+let timer;
 let timeout;
+let websocket;
 
 // GAME VARIABLE
 const play_again = document.querySelector('.play_again')
@@ -51,7 +55,8 @@ const userSignIn = async() => {
 
         login_input.value = JSON.parse(sessionStorage.getItem('user')).name
         check_disabled_input()
-        login_input.focus()
+        // login_input.focus()
+        env_form()
 
     }).catch((error) => {
         const errorCode = error.code
@@ -59,10 +64,7 @@ const userSignIn = async() => {
     })
 }
 
-icon_google.addEventListener('click',() => {
-    console.log('msg')
-    userSignIn()
-})
+icon_google.addEventListener('click', userSignIn)
 
 icon_google.addEventListener('mouseenter', () => {
     message_google.classList.remove('animate_back')
@@ -85,7 +87,16 @@ function check_disabled_input(){
 
 login_input.addEventListener('input', check_disabled_input)
 
-login_form.addEventListener('submit', (e) => {
+login_form.addEventListener('submit', env_form)
+
+// FUNCTION INTERATIONS
+function capitalizeWords(str) {
+    return str.replace(/\b\w/g, function (match) {
+        return match.toUpperCase();
+    });
+}
+
+function env_form(e){
     e.preventDefault()
     websocket = new WebSocket('wss://backend-infinite-runing.onrender.com')
     
@@ -96,11 +107,11 @@ login_form.addEventListener('submit', (e) => {
     websocket.addEventListener('message', (event) => {
         const data = JSON.parse(event.data)
 
-        console.log(data)
-        console.log(JSON.parse(data.data))
+        // console.log(data)
+        // console.log(JSON.parse(data.data))
 
         if(data.peoples == '1' && JSON.parse(data.data) == 1001){
-            console.log(JSON.parse(data.data) == 1001 + ', jogo parado')
+            // console.log(JSON.parse(data.data) == 1001 + ', jogo parado')
             num = 5
             timer = 6
             clearInterval(reg)
@@ -113,10 +124,12 @@ login_form.addEventListener('submit', (e) => {
         }
 
         if(data.peoples == '2' && JSON.parse(data.data) != 1001 && JSON.parse(data.data).loser == '' && JSON.parse(data.data).winner == ''){
-            console.log(JSON.parse(data.data) !== 1001)
+            // console.log(JSON.parse(data.data) !== 1001)
             screen_waiting.style.display = 'flex'
                 reg = setInterval(() => {
                     num--
+                    icon_google.style.display = 'none'
+                    message_google.style.display = 'none'
                     screen_message.innerText = `O Jogo Começa Em ${num}`
                 }, 1000);
             screen_login.style.display = 'none'
@@ -136,6 +149,8 @@ login_form.addEventListener('submit', (e) => {
             screen_message.innerText = `${data.peoples == '1' ? `Só Há Você Online` : `Tem ${data.peoples} Pessoas Online`}`
             screen_login.style.display = 'none'
             screen_game.style.display = 'none'
+            icon_google.style.display = 'none'
+            message_google.style.display = 'none'
             return
         }else if(JSON.parse(data.data).loser != name_player.innerText){
             if(data.names.split(':')[1].replace(',2','') != name_player.innerText){
@@ -153,6 +168,8 @@ login_form.addEventListener('submit', (e) => {
             screen_message.innerHTML = `Vc Ganhou <br> ${capitalizeWords(loser.toLowerCase())} Perdeu`
             screen_login.style.display = 'none'
             screen_game.style.display = 'none'
+            icon_google.style.display = 'none'
+            message_google.style.display = 'none'
             return
         }else if(JSON.parse(data.data).loser == name_player.innerText){
             websocket.send(JSON.stringify({ loser: name_player.innerText, winner: JSON.parse(data.data).winner }))
@@ -170,16 +187,11 @@ login_form.addEventListener('submit', (e) => {
             screen_message.innerHTML = `Vc Perdeu <br>${capitalizeWords(winner.toLowerCase())} Ganhou`
             screen_login.style.display = 'none'
             screen_game.style.display = 'none'
+            icon_google.style.display = 'none'
+            message_google.style.display = 'none'
             return
         }
     })
-})
-
-// FUNCTION INTERATIONS
-function capitalizeWords(str) {
-    return str.replace(/\b\w/g, function (match) {
-        return match.toUpperCase();
-    });
 }
 
 function jump_player(){
