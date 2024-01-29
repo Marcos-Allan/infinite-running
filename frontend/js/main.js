@@ -40,12 +40,13 @@ const perfil_img = document.querySelector('.perfil_img')
 // WAITING VARIABLES
 const screen_waiting = document.querySelector('.waiting')
 const screen_message = document.querySelector('.message')
-let num = 5
+let num = 6
 let reg;
 let loop;
 let timer;
 let timeout;
 let websocket;
+let names = []
 
 // GAME VARIABLE
 const play_again = document.querySelector('.play_again')
@@ -141,12 +142,8 @@ function env_form(e){
     websocket.addEventListener('message', (event) => {
         const data = JSON.parse(event.data)
 
-        // console.log(data)
-        // console.log(JSON.parse(data.data))
-
         if(data.peoples == '1' && JSON.parse(data.data) == 1001){
-            // console.log(JSON.parse(data.data) == 1001 + ', jogo parado')
-            num = 5
+            num = 6
             timer = 6
             clearInterval(reg)
             clearTimeout(timeout)
@@ -158,7 +155,6 @@ function env_form(e){
         }
 
         if(data.peoples == '2' && JSON.parse(data.data) != 1001 && JSON.parse(data.data).loser == '' && JSON.parse(data.data).winner == ''){
-            // console.log(JSON.parse(data.data) !== 1001)
             screen_waiting.style.display = 'flex'
                 reg = setInterval(() => {
                     num--
@@ -187,19 +183,22 @@ function env_form(e){
             message_google.style.display = 'none'
             return
         }else if(JSON.parse(data.data).loser != name_player.innerText){
-            if(data.names.split(':')[1].replace(',2','') != name_player.innerText){
-                loser = data.names.split(':')[1].replace(',2','')
-            }
-            else{
-                loser = data.names.split(':')[2].replace(',2','')
-            }
+            websocket.send(JSON.stringify({ winner: name_player.innerText, loser: JSON.parse(data.data).winner }))
+            
+            names.push(data.names.split(': ')[1].replace(',2','').toLowerCase())
+            names.push(data.names.split(': ')[2].replace(',2','').toLowerCase())
+            
+            const list = names.filter(nome => nome !== name_player.innerText.toLowerCase());
+
+            loser = list[0]
+
             websocket.close()
             
             name_player.innerText = ''
             screen_waiting.style.display = 'flex'
             play_again.style.display = 'block'
             play_again.style.backgroundColor = 'var(--color5)'
-            screen_message.innerHTML = `Vc Ganhou <br> ${capitalizeWords(loser.toLowerCase())} Perdeu`
+            screen_message.innerHTML = `Vc Ganhou <br> ${capitalizeWords(loser)} Perdeu`
             screen_login.style.display = 'none'
             screen_game.style.display = 'none'
             icon_google.style.display = 'none'
@@ -207,18 +206,20 @@ function env_form(e){
             return
         }else if(JSON.parse(data.data).loser == name_player.innerText){
             websocket.send(JSON.stringify({ loser: name_player.innerText, winner: JSON.parse(data.data).winner }))
-            if(data.names.split(':')[1].replace(',2','') == name_player.innerText){
-                winner = data.names.split(':')[1].replace(',2','')
-            }
-            else{
-                winner = data.names.split(':')[2].replace(',2','')
-            }
+                
+            names.push(data.names.split(': ')[1].replace(',2','').toLowerCase())
+            names.push(data.names.split(': ')[2].replace(',2','').toLowerCase())
+            
+            const list = names.filter(nome => nome !== name_player.innerText.toLowerCase());
+
+            winner = list[0]
+
             websocket.close()
             name_player.innerText = ''
             screen_waiting.style.display = 'flex'
             play_again.style.display = 'block'
             play_again.style.backgroundColor = 'var(--color2)'
-            screen_message.innerHTML = `Vc Perdeu <br>${capitalizeWords(winner.toLowerCase())} Ganhou`
+            screen_message.innerHTML = `Vc Perdeu <br>${capitalizeWords(winner)} Ganhou`
             screen_login.style.display = 'none'
             screen_game.style.display = 'none'
             icon_google.style.display = 'none'
