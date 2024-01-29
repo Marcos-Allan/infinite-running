@@ -7,6 +7,22 @@ const login_form = document.querySelector('.login_form')
 const login_input = document.querySelector('.login_input')
 const login_button = document.querySelector('.login_button')
 
+login_button.addEventListener('mouseenter', () => {
+    if(login_button.disabled){
+        return
+    }else{
+        login_button.style.scale = '1.1'
+    }
+})
+
+login_button.addEventListener('mouseleave', () => {
+    if(login_button.disabled){
+        return
+    }else{
+        login_button.style.scale = '1'
+    }
+})
+
 // VARIABLES GAME CONTROLS
 const screen_game = document.querySelector('.game')
 const controls = document.querySelector('.controls')
@@ -39,29 +55,44 @@ const placar = document.querySelector('.placar')
 let winner;
 let loser;
 
+document.addEventListener('DOMContentLoaded',view_user)
+
 const userSignIn = async() => {
     signInWithPopup(auth, provider)
     .then((result) => {
         const user = result.user
         sessionStorage.setItem('user', JSON.stringify({name: result.user.displayName.split(' ')[0], img: result.user.photoURL}))
 
-        icon_google.style.display = 'none'
-        message_google.style.display = 'none'
-        
-        perfil_name.style.display = 'block'
-        perfil_img.style.display = 'block'
-        perfil_name.innerText = JSON.parse(sessionStorage.getItem('user')).name
-        perfil_img.src = `${JSON.parse(sessionStorage.getItem('user')).img}`
-
-        login_input.value = JSON.parse(sessionStorage.getItem('user')).name
-        check_disabled_input()
-        // login_input.focus()
-        env_form()
+        view_user()
 
     }).catch((error) => {
         const errorCode = error.code
         const errorMessage = error.mesage
     })
+}
+
+function view_user(){
+    const user = sessionStorage.getItem('user')
+    if(user){
+        icon_google.style.display = 'none'
+        message_google.style.display = 'none'
+    
+        perfil_name.style.display = 'block'
+        perfil_img.style.display = 'block'
+        perfil_name.innerText = JSON.parse(sessionStorage.getItem('user')).name
+        perfil_img.src = `${JSON.parse(sessionStorage.getItem('user')).img}`
+        
+        login_input.value = JSON.parse(sessionStorage.getItem('user')).name
+        check_disabled_input()
+        login_input.focus()
+        env_form()
+    }else{
+        icon_google.style.display = 'block'
+        message_google.style.display = 'block'
+    
+        perfil_name.style.display = 'none'
+        perfil_img.style.display = 'none'
+    }
 }
 
 icon_google.addEventListener('click', userSignIn)
@@ -80,8 +111,11 @@ icon_google.addEventListener('mouseleave', () => {
 function check_disabled_input(){
     if(login_input.value.trim().length >= 3){
         login_button.removeAttribute('disabled')
+        login_input.style.border = '1px solid var(--color4)'
     }else{
         login_button.setAttribute('disabled', 'true')
+        login_button.style.scale = '1'
+        login_input.style.border = '1px solid var(--color2F)'
     }
 }
 

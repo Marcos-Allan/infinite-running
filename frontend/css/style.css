@@ -47,14 +47,15 @@ main > div.entrance {
 
 main > div.login_google {
     width: 100%;
-    height: 70px;
+    height: 80px;
     overflow-x: hidden;
+    overflow-y: hidden;
     position: absolute;
     top: 0%;
     left: 0%;
     display: flex;
     justify-content: flex-end;
-    align-items: center;
+    align-items: flex-start;
     padding-top: 20px;
     padding-right: 20px;
 }
@@ -67,12 +68,12 @@ main > div.login_google > img.perfil_img {
     margin-right: 10px;
 }
 main > div.login_google > p.perfil_name {
-    color: #f2f2f2;
+    color: var(--color1);
     display: none;
 }
 
 main > div.login_google > p.message_google {
-    color: #f2f2f2;
+    color: var(--color1);
     opacity: 1;
     font-size: 1.3em;
     padding-top: 10px;
@@ -82,18 +83,16 @@ main > div.login_google > p.message_google {
     right: 8%;
 }
 
-main > div.login_google > div.icon_google {
+main > div.login_google > img.icon_google {
     width: 40px;
     height: 40px;
-    background-size: cover;
-    background-position: center;
+    object-fit: cover;
     border-radius: 6px;
-    background-image: url('../imgs//google_icon3.jpg');
     transition: .1s;
     cursor: pointer;
 }
 
-main > div.login_google > div.icon_google:hover {
+main > div.login_google > img.icon_google:hover {
     scale: 1.2;
 }
 
@@ -143,9 +142,9 @@ main > div.entrance > form > input[type='submit'] {
     color: var(--color1)
 }
 
-main > div.entrance > form > input[type='submit']:hover {
+/* main > div.entrance > form > input[type='submit']:hover {
     scale: 1.1;
-}
+} */
 
 main > div.entrance > form > input[type='submit']:disabled {
     color: var(--color1);
@@ -165,13 +164,13 @@ main > div.waiting {
 }
 
 main > div.waiting > h1 {
-    color: #f2f2f2;
+    color: var(--color1);
     text-align: center;
     font-size: 1.5em;
 }
 
 main > div.waiting > button.play_again {
-    color: #f2f2f2;
+    color: var(--color1);
     padding: 10px 0px;
     width: 90%;
     max-width: 200px;
@@ -196,16 +195,13 @@ main > div.game {
     display: none;
     width: 100%;
     height: 100%;
-    /* max-width: 500px;
-    max-height: 500px;
-    border-radius: 12px; */
     overflow: hidden;
     background-color: var(--color2);
 }
 
 main > div.game > div.player_infos {
     display: flex;
-    color: #f2f2f2;
+    color: var(--color1);
 }
 
 main > div.game > div.player {
@@ -224,8 +220,6 @@ main > div.game > div.enemy {
     position: absolute;
     bottom: 81px;
     left: 100%;
-    /* left: 200px; */
-    /* left: -50px; */
 }
 
 main > div.game > div.ground {
@@ -279,8 +273,15 @@ main > div.game > div.ground {
     animation: fall 700ms ease-out;
 }
 
-/* CONTROLS */
+.animate_entrance{
+    right: 70px !important;
+}
 
+.animate_back{
+    right: -150vw !important;
+}
+
+/* CONTROLS */
 main > div.game > div.controls {
     width: 100%;
     height: 100%;
@@ -294,12 +295,4 @@ main > div.game > div.controls {
 main > div.game > div.controls > div {
     flex-grow: 1;
     height: 100%;
-}
-
-.animate_entrance{
-    right: 12% !important;
-}
-
-.animate_back{
-    right: -70vw !important;
 }
