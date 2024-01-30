@@ -48,6 +48,10 @@ let timer;
 let timeout;
 let websocket;
 let names = []
+let red;
+let green;
+let blue;
+let rgbColor;
 
 // GAME VARIABLE
 const play_again = document.querySelector('.play_again')
@@ -71,6 +75,32 @@ const userSignIn = async() => {
         const errorCode = error.code
         const errorMessage = error.mesage
     })
+}
+
+function hacker(){
+
+    function changeColor() {
+        red = Math.floor(Math.random() * 256);
+        green = Math.floor(Math.random() * 256);
+        blue = Math.floor(Math.random() * 256);
+      
+        rgbColor = "rgb(" + red + ", " + green + ", " + blue + ")"
+        
+        player.style.backgroundColor = rgbColor
+      }
+
+    if(name_player.innerText.toLowerCase() == 'hacker' || name_player.innerText.toLowerCase() == 'hack'){
+        setInterval(changeColor, 250);
+        player.style.bottom = 'calc(100% - 51px)'
+        player.style.border = '1px solid var(--color1)'
+        // player.style.backgroundColor = rgbColor
+        jump_btn.removeEventListener('click', jump_player)
+        fall_btn.removeEventListener('click', fall_player) 
+        document.removeEventListener('keyup', get_tecla_up)
+        document.removeEventListener('keydown', get_tecla_down)
+    }else{
+        return
+    }
 }
 
 function view_user(){
@@ -330,7 +360,9 @@ function play_game(){
     enemy.classList.add('face_animation')
     let score = 0;
     placar.innerText = score
-
+    
+    hacker()
+    
     loop = setInterval(() => {
         
         score = score + 1

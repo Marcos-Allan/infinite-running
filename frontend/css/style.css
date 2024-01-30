@@ -160,10 +160,6 @@ main > div.entrance > form > input[type='submit'] {
     color: var(--color1)
 }
 
-/* main > div.entrance > form > input[type='submit']:hover {
-    scale: 1.1;
-} */
-
 main > div.entrance > form > input[type='submit']:disabled {
     color: var(--color1);
     background-color: var(--color2F);   
@@ -219,7 +215,15 @@ main > div.game {
 
 main > div.game > div.player_infos {
     display: flex;
+    justify-content: flex-end;
     color: var(--color1);
+}
+
+main > div.game > div.player_infos > p,
+main > div.game > div.player_infos > span {
+    padding-right: 10px;
+    padding-top: 10px;
+    z-index: 2;
 }
 
 main > div.game > div.player {
