@@ -6,6 +6,8 @@ const screen_login = document.querySelector('.entrance')
 const login_form = document.querySelector('.login_form')
 const login_input = document.querySelector('.login_input')
 const login_button = document.querySelector('.login_button')
+const first_message = document.querySelector('.first_message')
+const message_conection = document.querySelector('.message_conection')
 
 login_button.addEventListener('mouseenter', () => {
     if(login_button.disabled){
@@ -61,7 +63,7 @@ const placar = document.querySelector('.placar')
 let winner;
 let loser;
 
-document.addEventListener('DOMContentLoaded',view_user)
+document.addEventListener('DOMContentLoaded', view_user)
 
 const userSignIn = async() => {
     signInWithPopup(auth, provider)
@@ -75,6 +77,11 @@ const userSignIn = async() => {
         const errorCode = error.code
         const errorMessage = error.mesage
     })
+}
+
+function userSignOut() {
+    sessionStorage.removeItem('user')
+    window.location.reload()
 }
 
 function hacker(){
@@ -93,7 +100,6 @@ function hacker(){
         setInterval(changeColor, 250);
         player.style.bottom = 'calc(100% - 51px)'
         player.style.border = '1px solid var(--color1)'
-        // player.style.backgroundColor = rgbColor
         jump_btn.removeEventListener('click', jump_player)
         fall_btn.removeEventListener('click', fall_player) 
         document.removeEventListener('keyup', get_tecla_up)
@@ -128,6 +134,7 @@ function view_user(){
 }
 
 icon_google.addEventListener('click', userSignIn)
+perfil_img.addEventListener('dblclick', userSignOut)
 
 icon_google.addEventListener('mouseenter', () => {
     message_google.classList.remove('animate_back')
@@ -153,7 +160,10 @@ function check_disabled_input(){
 
 login_input.addEventListener('input', check_disabled_input)
 
-login_form.addEventListener('submit', env_form)
+login_form.addEventListener('submit', (e) => {
+    e.preventDefault()
+    env_form()
+})
 
 // FUNCTION INTERATIONS
 function capitalizeWords(str) {
@@ -162,8 +172,10 @@ function capitalizeWords(str) {
     });
 }
 
-function env_form(e){
-    e.preventDefault()
+function env_form(){
+    message_conection.style.display = 'block'
+    first_message.style.display = 'none'
+    login_form.style.display = 'none'
     websocket = new WebSocket('wss://backend-infinite-runing.onrender.com')
     
     websocket.addEventListener('open', () => {
