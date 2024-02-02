@@ -177,8 +177,8 @@ function env_form(){
     message_conection.style.display = 'block'
     first_message.style.display = 'none'
     login_form.style.display = 'none'
-    // websocket = new WebSocket('wss://backend-infinite-runing.onrender.com')
-    websocket = new WebSocket('ws://localhost:8080')
+    websocket = new WebSocket('wss://backend-infinite-runing.onrender.com')
+    // websocket = new WebSocket('ws://localhost:8080')
     
     websocket.addEventListener('open', () => {
         websocket.send(JSON.stringify({ name: login_input.value, loser: '', winner: '', timer: 6, num: 6 }))
