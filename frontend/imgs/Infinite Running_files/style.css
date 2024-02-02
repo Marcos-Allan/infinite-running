@@ -1,0 +1,346 @@
+@font-face {
+    font-family: 'pixel';
+    src: url('./fonts/Font-Pixel.ttf');
+ }
+
+:root{
+    --color1: #f3f3f3;
+    --color2: #636363;
+    --color3: #272727;
+    --color4: #3C91E6;
+    --color5: #44CF6C;
+    --color6: #d9d9d9;
+
+    --color2F: #6363638c;
+}
+
+
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    /* USO DA FONT IMPORTADA */
+    font-family: 'pixel', 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;;
+    font-size: 12px;
+    letter-spacing: 2px;
+}
+
+main, body, html {
+    width: 100dvw;
+    height: 100dvh;
+    display: flex;
+    overflow: hidden;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--color3);
+}
+
+main > img.game_icon {
+    width: 140px;
+    height: auto;
+    display: block;
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translate(-50%, -0%);
+    margin: 0 auto;
+    transition: all .4s;
+}
+
+main > img.game_icon:hover {
+    width: 160px;
+}
+
+/* LOGIN */
+main > div.entrance {
+    position: relative;
+    background-color: var(--color1);
+    max-width: 300px;
+    width: 90%;
+    padding: 20px;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+main > div.login_google {
+    width: 100%;
+    height: 80px;
+    overflow: hidden;
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-top: 20px;
+    padding-right: 20px;
+}
+
+main > div.login_google > img.perfil_img {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: none;
+    margin-right: 10px;
+    cursor: pointer;
+}
+main > div.login_google > p.perfil_name {
+    color: var(--color1);
+    display: none;
+}
+
+main > div.login_google > p.message_google {
+    color: var(--color1);
+    opacity: 1;
+    font-size: 1em;
+    padding-top: 10px;
+    margin-right: 20px;
+    transition: all 700ms;
+    position: absolute;
+    right: 8%;
+}
+
+main > div.login_google > img.icon_google {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 6px;
+    transition: .1s;
+    cursor: pointer;
+}
+
+main > div.login_google > img.icon_google:hover {
+    scale: 1.2;
+}
+
+main > div.entrance > h1.first_message {
+    color: var(--color3);
+    margin-bottom: 20px;
+    font-size: 1em;
+    text-align: center;
+}
+
+main > div.entrance > h1.message_conection {
+    display: none;
+    padding-top: 20px;
+    color: var(--color3);
+    margin-bottom: 20px;
+    font-size: 1em;
+    text-align: center;
+}
+
+main > div.entrance > form  {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+main > div.entrance > form > input {
+    border: none;
+    outline: none;
+    flex-grow: 1;
+    padding: 0px 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: capitalize;
+}
+
+main > div.entrance > form > input[type='text'] {
+    background-color: var(--color6);
+    color: var(--color3);
+    flex-grow: 1;
+    padding-top: 5px;
+    font-size: 0.8em;
+    max-width: 70%;
+}
+
+main > div.entrance > form > input[type='text']:focus {
+    border: 1px solid var(--color2F);
+}
+
+main > div.entrance > form > input[type='submit'] {
+    background-color: var(--color4);
+    text-transform: uppercase;
+    font-size: 0.8em;
+    cursor: pointer;
+    padding-top: 5px;
+    flex-grow: 1;
+    color: var(--color1)
+}
+
+main > div.entrance > form > input[type='submit']:disabled {
+    color: var(--color1);
+    background-color: var(--color2F);   
+    cursor: auto;
+}
+
+/* ESPERANDO */
+main > div.waiting {
+    width: 100%;
+    height: 100%;
+    background-color: var(--color3);
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+main > div.waiting > h1 {
+    color: var(--color1);
+    text-align: center;
+    font-size: 1.5em;
+}
+
+main > div.waiting > button.play_again {
+    color: var(--color1);
+    padding: 10px 0px;
+    width: 90%;
+    max-width: 200px;
+    display: none;
+    padding-top: 14px;
+    font-size: 1.3em;
+    border: none;
+    outline: none;
+    margin-top: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: .1s;
+}
+
+main > div.waiting > button.play_again:hover {
+    scale: 1.1;
+}
+
+/* JOGO */
+main > div.game {
+    position: relative;
+    display: none;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: var(--color2);
+}
+
+main > div.game > div.player_infos {
+    display: flex;
+    justify-content: flex-end;
+    color: var(--color1);
+}
+
+main > div.game > div.player_infos > p,
+main > div.game > div.player_infos > span {
+    padding-right: 10px;
+    padding-top: 10px;
+    z-index: 2;
+}
+
+main > div.game > div.player {
+    width: 50px;
+    height: 50px;
+    background-color: var(--color5);
+    position: absolute;
+    bottom: 81px;
+    left: 1px;
+}
+
+main > div.game > div.enemy {
+    width: 50px;
+    height: 50px;
+    background-color: var(--color1);
+    position: absolute;
+    bottom: 81px;
+    left: 100%;
+}
+
+main > div.game > div.ground {
+    width: 100%;
+    height: 80px;
+    position: absolute;
+    bottom: 0%;
+    left: 0%;
+    background-color: var(--color4);
+}
+
+@keyframes jump {
+    0%{
+        bottom: 81px;
+    }
+    50%{
+        bottom: 300px;
+    }
+    100%{
+        bottom: 81px;
+    }
+}
+
+@keyframes fall {
+    from{
+        bottom: 300px;
+    }
+    to{
+        bottom: 81px;
+    }
+}
+
+@keyframes face {
+    from{
+        left: 100%;
+    }
+    to{
+        left: calc(0% - 153px);
+    }
+}
+
+.jump_animation {
+    animation: jump 700ms ease-in-out;
+}
+
+.face_animation {
+    animation: face 1700ms linear infinite;
+}
+
+.fall_animation {
+    animation: fall 700ms ease-out;
+}
+
+.animate_entrance{
+    right: 70px !important;
+}
+
+.animate_back{
+    right: -150vw !important;
+}
+
+/* CONTROLS */
+main > div.game > div.controls {
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    display: flex;
+}
+
+main > div.game > div.controls > div {
+    flex-grow: 1;
+    height: 100%;
+}
+
+@media (max-width: 680px) {
+    main > img.game_icon {
+        top: -30px;
+        left: 4%;
+        transform: translate(-0%, -0%);
+    }
+
+    main > div.login_google > p.message_google {
+        font-size: 0.7em;
+    }
+}
