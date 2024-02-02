@@ -177,19 +177,25 @@ function env_form(){
     message_conection.style.display = 'block'
     first_message.style.display = 'none'
     login_form.style.display = 'none'
-    websocket = new WebSocket('wss://backend-infinite-runing.onrender.com')
+    // websocket = new WebSocket('wss://backend-infinite-runing.onrender.com')
+    websocket = new WebSocket('ws://localhost:8080')
     
     websocket.addEventListener('open', () => {
-        websocket.send(JSON.stringify({ name: login_input.value, loser: '', winner: '' }))
+        websocket.send(JSON.stringify({ name: login_input.value, loser: '', winner: '', timer: 6, num: 6 }))
     })
 
     websocket.addEventListener('message', (event) => {
         const data = JSON.parse(event.data)
         posic = data.peoples
 
+        num = Number(JSON.parse(data.data).num)
+        timer = Number(JSON.parse(data.data).timer)
+        clearInterval(reg)
+        clearTimeout(timeout)
+
         if(data.peoples == '1' && JSON.parse(data.data) == 1001){
-            num = 6
-            timer = 6
+            num = Number(JSON.parse(data.data).num)
+            timer = Number(JSON.parse(data.data).timer)
             clearInterval(reg)
             clearTimeout(timeout)
             screen_waiting.style.display = 'flex'
@@ -220,7 +226,7 @@ function env_form(){
                 //LEVAR O PLAYER A TELA DO JOGO
                 screen_game.style.display = 'block'
                 play_game()
-            }, 6000);
+            }, timer * 1000);
         }
         
         if(JSON.parse(data.data).loser == '' && JSON.parse(data.data).winner == ''){
@@ -249,7 +255,7 @@ function env_form(){
             game_icon.style.display = 'block'
             play_again.style.display = 'block'
             play_again.style.backgroundColor = 'var(--color5)'
-            screen_message.innerHTML = `Vc Ganhou <br> Ficou em ${posic}° <br> Parabéns`
+            screen_message.innerHTML = `${posic}° Lugar <br> Vc Ganhou `
             screen_login.style.display = 'none'
             screen_game.style.display = 'none'
             icon_google.style.display = 'none'
@@ -305,7 +311,7 @@ function game_over(){
     game_icon.style.display = 'block'
     play_again.style.display = 'block'
     play_again.style.backgroundColor = 'var(--color2)'
-    screen_message.innerHTML = `Vc Perdeu <br> Ficou em ${posic}° <br> Tente Novamente`
+    screen_message.innerHTML = `${posic}° Lugar <br> Vc Perdeu`
     screen_login.style.display = 'none'
     screen_game.style.display = 'none'
     icon_google.style.display = 'none'
@@ -338,7 +344,7 @@ function play_game(){
     placar.innerText = score
     
     hacker()
-    
+    clearInterval(loop)
     loop = setInterval(() => {
         
         score = score + 1
