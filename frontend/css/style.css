@@ -197,6 +197,11 @@ main > div.waiting > h1 {
     font-size: 1.5em;
 }
 
+main > div.waiting > img.icon_finish {
+    display: none;
+    margin-bottom: 20px;
+}
+
 main > div.waiting > button.play_again {
     color: var(--color1);
     padding: 10px 0px;

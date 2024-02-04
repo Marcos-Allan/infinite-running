@@ -43,6 +43,7 @@ const game_icon = document.querySelector('.game_icon')
 // WAITING VARIABLES
 const screen_waiting = document.querySelector('.waiting')
 const screen_message = document.querySelector('.message')
+const icon_finish = document.querySelector('.icon_finish')
 let num = 6
 let reg;
 let loop;
@@ -240,6 +241,7 @@ function env_form(){
             return
         }else if(data.peoples == '1'){
             websocket.send(JSON.stringify({ winner: name_player.innerText, loser: JSON.parse(data.data).winner }))
+            icon_finish.style.display = 'block'
             
             names.push(data.names.split(': ')[1].replace(',2','').toLowerCase())
             names.push(data.names.split(': ')[2].replace(',2','').toLowerCase())
@@ -253,6 +255,7 @@ function env_form(){
             name_player.innerText = ''
             screen_waiting.style.display = 'flex'
             game_icon.style.display = 'block'
+            icon_finish.src = 'imgs/gold.png'
             play_again.style.display = 'block'
             play_again.style.backgroundColor = 'var(--color5)'
             screen_message.innerHTML = `${posic}° Lugar <br> Vc Ganhou `
@@ -307,6 +310,14 @@ function game_over(){
 
     websocket.close()
     name_player.innerText = ''
+    icon_finish.style.display = 'block'
+    if(posic == 2){
+        icon_finish.src = 'imgs/silver.png'
+    }else if(posic == 3){
+        icon_finish.src = 'imgs/bronze.png'
+    }else{
+        icon_finish.display = 'none'
+    }
     screen_waiting.style.display = 'flex'
     game_icon.style.display = 'block'
     play_again.style.display = 'block'
